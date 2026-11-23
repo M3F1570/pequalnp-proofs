@@ -2,15 +2,15 @@ import Mathlib
 import PEqualNP.Defs
 
 /-!
-The edge function of the paw (edges 01, 02, 12, 03) has fan-in-two AND/OR/NOT circuits with
-`s` gates exactly when `5 ≤ s`.
+  The edge function of the paw (edges 01, 02, 12, 03) has fan-in-two AND/OR/NOT circuits with
+  `s` gates exactly when `5 ≤ s`.
 
-Upper bound: `x0 ∧ (x1 ∨ x2 ∨ x3) ∨ x1 ∧ x2`, five gates.
+  Upper bound: `x0 ∧ (x1 ∨ x2 ∨ x3) ∨ x1 ∧ x2`, five gates.
 
-Lower bound: every wire is tracked on seven fixed input rows as a bit table (bit `k` is its
-value on row `k`). The table of a gate is determined by the tables of the wires it reads, so the
-tables reachable with at most four gates are enumerated by a checked search (`good`), which
-finds no wire whose table is the table of the paw function.
+  Lower bound: every wire is tracked on seven fixed input rows as a bit table (bit `k` is its
+  value on row `k`). The table of a gate is determined by the tables of the wires it reads, so the
+  tables reachable with at most four gates are enumerated by a checked search (`good`), which
+  finds no wire whose table is the table of the paw function.
 -/
 
 namespace PEqualNP.Outside.L_meta_138_aux
@@ -21,7 +21,7 @@ open PEqualNP.CircuitLowerBounds PEqualNP.MetaComplexity
 def f : (Fin 4 → Bool) → Bool :=
   fun x : Fin 4 → Bool => (x 0 && x 1) || (x 0 && x 2) || (x 1 && x 2) || (x 0 && x 3)
 
-/-! ## Rows and tables -/
+/-! Rows and tables -/
 
 /-- Number of rows used. -/
 def m : ℕ := 7
@@ -60,7 +60,7 @@ def step (w : List ℕ) (g : Gate) : List ℕ :=
 def ok (g : Gate) : Prop :=
   (g.op = .and ∨ g.op = .or ∨ g.op = .not) ∧ g.inputs.length ≤ 2
 
-/-! ## Bits of gate tables -/
+/-! Bits of gate tables -/
 
 theorem M_bit (k : ℕ) (hk : k < m) : M.testBit k = true := by
   simp only [m] at hk
@@ -112,7 +112,7 @@ theorem wires_bit (k : ℕ) (hk : k < m) :
       · rw [tv_bit g.op hg.1 _ (by simpa using hg.2) k hk, hmap]
       · simp
 
-/-! ## The search -/
+/-! The search -/
 
 /-- All `a &&& b` and `a ||| b` for `a`, `b` in the list. -/
 def pairsUp : List ℕ → List ℕ
@@ -136,7 +136,7 @@ def two (S : List ℕ) : Bool :=
     (a ||| T != T || (0 :: (S ++ [a])).all fun c => a ||| c != T)
 
 /-- At most `k` more gates on the tables `S` cannot produce `T`. Tables already present are not
-added again. -/
+  added again. -/
 def good : List ℕ → ℕ → Bool
   | _, 0 => true
   | S, 1 => leaf S
@@ -389,7 +389,7 @@ theorem sound : ∀ (gs : List Gate) (k : ℕ) (S wt : List ℕ), good S k = tru
         · simp only [List.mem_append, List.mem_singleton, not_or]
           exact ⟨hT, fun h => haT h.symm⟩
 
-/-! ## Bounds -/
+/-! Bounds -/
 
 theorem tv_lt (op : GateOp) (l : List ℕ) (hl : ∀ a ∈ l, a < 2 ^ m) : tv op l < 2 ^ m := by
   have hM : M < 2 ^ m := by decide
@@ -428,7 +428,7 @@ theorem bound : ∀ (gs : List Gate) (wt : List ℕ), (∀ x ∈ wt, x < 2 ^ m) 
       | none => simp
       | some v => exact hw v (List.mem_of_getElem? h)
 
-/-! ## Finite facts -/
+/-! Finite facts -/
 
 theorem good4 : good S0 4 = true := by decide +kernel
 
@@ -455,7 +455,7 @@ theorem T_lt : T < 2 ^ m := by decide
 
 theorem S0_lt : ∀ x ∈ S0, x < 2 ^ m := by decide
 
-/-! ## The two directions -/
+/-! The two directions -/
 
 theorem lower (C : Circuit) (hC : FanInTwo C) (hs : C.size ≤ 4)
     (hf : ∀ x : Fin 4 → Bool, C.eval (List.ofFn x) = f x) : False := by
