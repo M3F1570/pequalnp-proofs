@@ -2,10 +2,10 @@ import Mathlib
 import PEqualNP.Defs
 
 /-!
-L-meta-178. A graph `H` that embeds (as an induced subgraph) into a labelled `2k`-fold
-subdivision `Gh` inherits the girth bound of `Gh`, and every vertex of `H` with three distinct
-neighbours is sent to a hub (a vertex at position `0`), because every vertex at a nonzero
-position has exactly the two neighbours `a` and `b`.
+  L-meta-178. A graph `H` that embeds (as an induced subgraph) into a labelled `2k`-fold
+  subdivision `Gh` inherits the girth bound of `Gh`, and every vertex of `H` with three distinct
+  neighbours is sent to a hub (a vertex at position `0`), because every vertex at a nonzero
+  position has exactly the two neighbours `a` and `b`.
 -/
 
 theorem PEqualNP.Outside.L_meta_178 :
